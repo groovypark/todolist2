@@ -1,8 +1,10 @@
 <template>
   <div class="todoapp">
     <TodoHeader/>
-    <TodoInput/>
-    <TodoList/>
+    <TodoInput
+      v-on:addTodoItem="addTodo"/>
+    <TodoList
+      v-bind:todoItems="todoItems"/>
     <TodoFooter/>
   </div>
 </template>
@@ -20,7 +22,18 @@ export default {
   },
   data() {
     return{
-      todoList: []
+      todoItems: [{
+        checked: 'false',
+        title: 'fuck'
+        }]
+    }
+  },
+  methods: {
+    addTodo: function(value){
+      this.todoItems.push({
+        checked: 'false',
+        title: value
+      })
     }
   }
 }
