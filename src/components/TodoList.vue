@@ -1,23 +1,21 @@
 <template>
 	<div>
-		<ul class="todo-list">
-			<!-- These are here just to show the structure of the list items -->
-			<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-			<li class="completed">
+		<ul v-for="(item, index) in todoItems" :key="index" class="todo-list">
+			<li v-if="item.checked == false">
 				<div class="view">
-					<input class="toggle" type="checkbox" checked>
-					<label>Taste JavaScript</label>
+					<input v-on:click="clickCheckbox(index)" class="toggle" type="checkbox">
+					<label>{{ item.title }}</label>
 					<button class="destroy"></button>
 				</div>
 				<input class="edit" value="Create a TodoMVC template">
 			</li>
-			<li>
+			<li v-else-if="item.checked === true" class="completed">
 				<div class="view">
-					<input class="toggle" type="checkbox">
-					<label>Buy a unicorn</label>
+					<input v-on:click="clickCheckbox(index)" class="toggle" type="checkbox" checked>
+					<label>{{ item.title }}</label>
 					<button class="destroy"></button>
 				</div>
-				<input class="edit" value="Rule the web">
+				<input class="edit" value="Create a TodoMVC template">
 			</li>
 		</ul>
 	</div>
@@ -25,6 +23,14 @@
 
 <script>
 export default {
-	name: 'TodoList'
+	name: 'TodoList',
+	props: {
+    todoItems: Array
+	},
+	methods: {
+		clickCheckbox: function(index) {
+			this.$emit('clickCheckbox', index)
+		}
+	}
 }
 </script>
