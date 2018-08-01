@@ -1,8 +1,17 @@
 <template>
   <div>
-    <input v-on:keyup.enter="addTodoItem" v-model="inputText" class="new-todo" placeholder="What needs to be done?" autofocus>
+    <input
+      v-on:keyup.enter="addTodoItem"
+      v-model="inputText"
+      class="new-todo"
+      placeholder="What needs to be done?"
+      autofocus>
     <div class="main">
-      <input id="toggle-all" class="toggle-all" type="checkbox">
+      <input
+        v-on:click="clickToggleAll"
+        id="toggle-all"
+        class="toggle-all"
+        type="checkbox">
       <label for="toggle-all">Mark all as complete</label>
     </div>
   </div>
@@ -11,6 +20,10 @@
 <script>
 export default {
   name: 'TodoInput',
+  props: {
+    todoItems: Array,
+    // allCheckStatus: Boolean
+	},
   data() {
     return {
       inputText: ''
@@ -22,6 +35,9 @@ export default {
         this.$emit('addTodoItem',this.inputText)
         this.inputText = ''
       }
+    },
+    clickToggleAll() {
+      this.$emit('clickToggleAll')
     }
   }
 }

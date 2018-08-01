@@ -2,7 +2,9 @@
   <div class="todoapp">
     <TodoHeader/>
     <TodoInput
-      v-on:addTodoItem="addTodo"/>
+      v-on:addTodoItem="addTodo"
+      v-on:clickToggleAll="toggleAll"
+      v-bind:todoItems="todoItems"/>
     <TodoList
       v-on:clickCheckbox="toggleChecked"
       v-on:clickDestroy="destroyTodo"
@@ -28,7 +30,7 @@ export default {
       todoItems: [{
         checked: false,
         title: 'a'
-      }]
+      }],
     }
   },
   created: function() {
@@ -36,6 +38,16 @@ export default {
       this.todoItems = getLocalStorage('todoItems')
     }
   },
+  // computed: {
+  //   allChecked() {
+  //     for (const item in this.todoItems) {
+  //       if (item.checked === false) {
+  //         return false
+  //       }
+  //       else return true
+  //     }
+  //   }
+  // },
   methods: {
     addTodo(value){
       this.todoItems.push({
@@ -50,6 +62,12 @@ export default {
     },
     toggleChecked(index){
       this.todoItems[index].checked = !this.todoItems[index].checked
+      localStroageSetItem('todoItems',JSON.stringify(this.todoItems))
+    },
+    toggleAll(){
+      this.todoItems.forEach(item => {
+        item.checked = !item.checked
+      });
       localStroageSetItem('todoItems',JSON.stringify(this.todoItems))
     }
   }
