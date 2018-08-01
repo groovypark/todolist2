@@ -5,6 +5,7 @@
       v-on:addTodoItem="addTodo"/>
     <TodoList
       v-on:clickCheckbox="toggleChecked"
+      v-on:clickDestroy="destroyTodo"
       v-bind:todoItems="todoItems"/>
     <TodoFooter/>
   </div>
@@ -30,13 +31,16 @@ export default {
     }
   },
   methods: {
-    addTodo: function(value){
+    addTodo(value){
       this.todoItems.push({
         checked: false,
         title: value
       })
     },
-    toggleChecked: function(index){
+    destroyTodo(index){
+      this.todoItems.splice(index,1)
+    },
+    toggleChecked(index){
       this.todoItems[index].checked = !this.todoItems[index].checked
     }
   }

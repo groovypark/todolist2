@@ -1,11 +1,14 @@
 <template>
 	<div>
 		<ul v-for="(item, index) in todoItems" :key="index" class="todo-list">
-			<li v-bind:class="{ 'completed': item.checked }">
+			<li v-bind:class="{'completed': item.checked}">
 				<div class="view">
-					<input v-on:click="clickCheckbox(index)" class="toggle" type="checkbox">
+					<input
+						v-on:click="clickCheckbox(index)"
+						v-bind="{'checked': item.checked}"
+						class="toggle" type="checkbox">
 					<label>{{ item.title }}</label>
-					<button class="destroy"></button>
+					<button v-on:click="clickDestroy(index)" class="destroy"></button>
 				</div>
 				<input class="edit" value="Create a TodoMVC template">
 			</li>
@@ -20,9 +23,12 @@ export default {
     todoItems: Array
 	},
 	methods: {
-		clickCheckbox: function(index) {
+		clickCheckbox(index) {
 			this.$emit('clickCheckbox', index)
+		},
+		clickDestroy(index) {
+			this.$emit('clickDestroy', index)
 		}
-	}
+	},
 }
 </script>
