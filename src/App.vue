@@ -16,6 +16,7 @@ import TodoHeader from './components/TodoHeader.vue'
 import TodoInput from './components/TodoInput.vue'
 import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
+import {localStroageSetItem, getLocalStorage} from './storage.js'
 
 export default {
   name: 'app',
@@ -27,7 +28,12 @@ export default {
       todoItems: [{
         checked: false,
         title: 'a'
-        }]
+      }]
+    }
+  },
+  created: function() {
+    if (getLocalStorage('todoItems') !== null) {
+      this.todoItems = getLocalStorage('todoItems')
     }
   },
   methods: {
@@ -36,12 +42,15 @@ export default {
         checked: false,
         title: value
       })
+      localStroageSetItem('todoItems',JSON.stringify(this.todoItems))
     },
     destroyTodo(index){
       this.todoItems.splice(index,1)
+      localStroageSetItem('todoItems',JSON.stringify(this.todoItems))
     },
     toggleChecked(index){
       this.todoItems[index].checked = !this.todoItems[index].checked
+      localStroageSetItem('todoItems',JSON.stringify(this.todoItems))
     }
   }
 }
